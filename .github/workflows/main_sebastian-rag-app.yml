@@ -73,4 +73,4 @@ jobs:
         with:
           app-name: 'sebastian-rag-app'
           slot-name: 'Production'
-          
+          package: .
