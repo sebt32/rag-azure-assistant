@@ -1,5 +1,5 @@
 # app.py
-# Minimal Streamlit RAG starter (FAISS + LLM)
+# Streamlit RAG (FAISS + LLM)
 
 import streamlit as st
 from typing import List
@@ -11,16 +11,12 @@ from langchain.vectorstores import FAISS
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 
-# --------------------------------------------------
 # Streamlit UI setup
-# --------------------------------------------------
 st.set_page_config(page_title="Azure RAG Assistant", layout="wide")
 st.title("📄 Azure-Deployed RAG Assistant")
 st.caption("LLMs + Prompt Engineering + FAISS + Azure")
 
-# --------------------------------------------------
 # Prompt (this is prompt engineering)
-# --------------------------------------------------
 SYSTEM_PROMPT = """
 You are an expert assistant.
 Answer ONLY using the provided context.
@@ -29,9 +25,7 @@ If the answer is not in the context, say:
 Cite the source document at the end of your answer.
 """
 
-# --------------------------------------------------
 # Helper functions
-# --------------------------------------------------
 @st.cache_resource
 def load_vectorstore(docs: List[Document]):
     splitter = RecursiveCharacterTextSplitter(
@@ -64,9 +58,7 @@ Question:
     response = llm.predict(prompt)
     return response
 
-# --------------------------------------------------
-# Sidebar: document upload
-# --------------------------------------------------
+# Sidebar - document upload
 with st.sidebar:
     st.header("📂 Upload Documents")
     uploaded_files = st.file_uploader(
@@ -75,9 +67,8 @@ with st.sidebar:
         accept_multiple_files=True
     )
 
-# --------------------------------------------------
+
 # Load documents
-# --------------------------------------------------
 docs = []
 
 if uploaded_files:
@@ -90,9 +81,8 @@ if uploaded_files:
             )
         )
 
-# --------------------------------------------------
+
 # Main app logic
-# --------------------------------------------------
 if docs:
     vectorstore = load_vectorstore(docs)
     st.success("Documents indexed successfully!")
